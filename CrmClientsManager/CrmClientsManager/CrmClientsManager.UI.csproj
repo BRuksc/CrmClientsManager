@@ -8,4 +8,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CrmClientsManager.Database\CrmClientsManager.Database.csproj" />
+    <ProjectReference Include="..\CrmClientsManager.Infrastructure\CrmClientsManager.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

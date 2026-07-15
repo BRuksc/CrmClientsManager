@@ -1,3 +1,6 @@
+using CrmClientsManager.Database.Configuration;
+using CrmClientsManager.UI;
+
 namespace CrmClientsManager
 {
     internal static class Program
@@ -10,6 +13,8 @@ namespace CrmClientsManager
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+            Bootstrapper.Run();
+
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }
