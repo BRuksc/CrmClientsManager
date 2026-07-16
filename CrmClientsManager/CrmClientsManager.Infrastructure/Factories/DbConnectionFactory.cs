@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 
-namespace CrmClientsManager.Infrastructure.Database
+namespace CrmClientsManager.Infrastructure.Factories
 {
     public class DbConnectionFactory : IDbConnectionFactory
     {

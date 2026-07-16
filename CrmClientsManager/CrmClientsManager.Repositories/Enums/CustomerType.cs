@@ -7,6 +7,6 @@ namespace CrmClientsManager.Domain.Enums
     public enum CustomerType
     {
         Company,
-        PrivatePerson
+        Individual
     }
 }
