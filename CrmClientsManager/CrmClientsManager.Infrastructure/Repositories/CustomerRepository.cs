@@ -1,6 +1,5 @@
 ﻿using CrmClientsManager.Database.Resources;
 using CrmClientsManager.Domain.Entities;
-using CrmClientsManager.Infrastructure.Database;
 using CrmClientsManager.Infrastructure.Interfaces;
 using CrmClientsManager.Infrastructure.Mapping;
 using System;
