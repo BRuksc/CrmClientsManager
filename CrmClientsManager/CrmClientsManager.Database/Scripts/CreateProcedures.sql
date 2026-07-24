@@ -252,3 +252,40 @@ BEGIN
 
 END
 GO
+
+CREATE OR ALTER PROCEDURE Ticket_Create
+(
+    @CustomerId INT,
+    @ContractId INT = NULL,
+    @Subject NVARCHAR(200),
+    @Description NVARCHAR(MAX),
+    @Priority NVARCHAR(50)
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO Ticket
+    (
+        CustomerId,
+        ContractId,
+        Subject,
+        Description,
+        Priority,
+        Status,
+        CreatedDate
+    )
+    VALUES
+    (
+        @CustomerId,
+        @ContractId,
+        @Subject,
+        @Description,
+        @Priority,
+        'New',
+        GETDATE()
+    );
+
+    SELECT CAST(SCOPE_IDENTITY() AS INT);
+END;
+GO

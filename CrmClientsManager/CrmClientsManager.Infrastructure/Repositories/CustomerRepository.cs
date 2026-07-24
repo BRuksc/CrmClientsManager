@@ -10,56 +10,81 @@ using System.Text;
 
 namespace CrmClientsManager.Infrastructure.Repositories
 {
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository : BaseRepository<Customer>, IRepository<Customer>
     {
-        private readonly IDbConnectionFactory _connectionFactory;
+        protected override IDataMap<Customer> Mapper { get; set; }
+        protected override IDbConnectionFactory ConnectionFactory { get; set; }
 
-        public CustomerRepository(IDbConnectionFactory connectionFactory) => 
-            _connectionFactory = connectionFactory;
+        public CustomerRepository(IDbConnectionFactory connectionFactory) : base(connectionFactory)
+        {
+            Mapper = new CustomerDataMapper();
+        }
 
         public int Add(Customer customer)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Customer> GetAll()
-        {
-            using var connection =
-                _connectionFactory.CreateConnection();
-
             using var command =
-                new SqlCommand(
-                    ProceduresNames.CustomerGetAll,
-                    connection);
+                CreateCommand(ConnectionFactory.CreateConnection(), ProceduresNames.CustomerInsert);
 
-            command.CommandType =
-                CommandType.StoredProcedure;
+            command.Parameters.AddWithValue(
+                "@Name",
+                customer.Name);
 
-            connection.Open();
+            command.Parameters.AddWithValue(
+                "@Nip",
+                customer.Nip);
 
-            using var reader =
-                command.ExecuteReader();
-            
-            IDataMap<Customer> customersMapper = new CustomerDataMapper();
+            command.Parameters.AddWithValue(
+                "@Address",
+                customer.Address);
 
-            var customers = customersMapper.Map(reader);
+            command.Parameters.AddWithValue(
+                "@Email",
+                customer.Email);
 
-            return customers;
+            command.Parameters.AddWithValue(
+                "@Phone",
+                customer.Phone);
+
+            command.Parameters.AddWithValue(
+                "@CustomerType",
+                customer.Type.ToString());
+
+
+            return ExecuteScalar(command);
         }
 
-        public Customer? GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Update(Customer customer)
         {
-            throw new NotImplementedException();
+            using var command =
+                CreateCommand(ConnectionFactory.CreateConnection(), ProceduresNames.CustomerUpdate);
+
+            command.Parameters.AddWithValue(
+                "@CustomerId",
+                customer.CustomerId);
+
+            command.Parameters.AddWithValue(
+                "@Name",
+                customer.Name);
+
+            command.Parameters.AddWithValue(
+                "@Nip",
+                customer.Nip);
+
+            command.Parameters.AddWithValue(
+                "@Address",
+                customer.Address);
+
+            command.Parameters.AddWithValue(
+                "@Email",
+                customer.Email);
+
+            command.Parameters.AddWithValue(
+                "@Phone",
+                customer.Phone);
+
+
+            ExecuteNonQuery(command);
         }
     }
 }
