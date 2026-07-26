@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="CrmClientsManager.Database/CrmClientsManager.Database.csproj" />
+  <Project Path="CrmClientsManager.Infrastructure/CrmClientsManager.Infrastructure.csproj" />
+  <Project Path="CrmClientsManager.Logic/CrmClientsManager.Application.csproj" />
+  <Project Path="CrmClientsManager.Repositories/CrmClientsManager.Domain.csproj" />
+  <Project Path="CrmClientsManager.Tests/CrmClientsManager.Tests.csproj" />
+  <Project Path="CrmClientsManager/CrmClientsManager.UI.csproj" />
+</Solution>
