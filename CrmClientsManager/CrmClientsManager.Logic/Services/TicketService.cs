@@ -11,10 +11,12 @@ namespace CrmClientsManager.Application.Services
     public class TicketService : ITicketService
     {
         private readonly ITicketRepository _repository;
+        private readonly IServiceValidation _serviceValidator;
 
         public TicketService(ITicketRepository repository)
         {
             _repository = repository;
+            _serviceValidator = new ServiceValidator();
         }
 
         public IList<Ticket> GetOpen()
@@ -22,11 +24,7 @@ namespace CrmClientsManager.Application.Services
 
         public int Create(Ticket ticket)
         {
-            if (string.IsNullOrWhiteSpace(ticket.Subject))
-                throw new ValidationException("Subject is required.");
-
-            if (string.IsNullOrWhiteSpace(ticket.Description))
-                throw new ValidationException("Description is required.");
+            _serviceValidator.ValidateTicket(ticket);
 
             return _repository.Create(ticket);
         }

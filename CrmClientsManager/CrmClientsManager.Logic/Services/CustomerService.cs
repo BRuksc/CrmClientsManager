@@ -12,11 +12,13 @@ namespace CrmClientsManager.Application.Services
     public class CustomerService : ICustomerService
     {
         private readonly CustomerRepository _repository;
+        private readonly IServiceValidation _serviceValidator;
 
         public CustomerService(
             CustomerRepository repository)
         {
             _repository = repository;
+            _serviceValidator = new ServiceValidator();
         }
 
 
@@ -28,26 +30,16 @@ namespace CrmClientsManager.Application.Services
 
         public int Create(Customer customer)
         {
-            Validate(customer);
+            _serviceValidator.ValidateCustomer(customer);
 
             return _repository.Add(customer);
-        }
-
-
-        private void Validate(Customer customer)
-        {
-            if (string.IsNullOrWhiteSpace(customer.Nip))
-            {
-                throw new ValidationException(
-                    "NIP is required");
-            }
         }
 
         public void Delete(int id) => _repository.Delete(id);
 
         public void Update(Customer customer)
         {
-            Validate(customer);
+            _serviceValidator.ValidateCustomer(customer);
             _repository.Update(customer);
         }
     }
