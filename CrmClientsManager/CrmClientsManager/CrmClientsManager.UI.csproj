@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CrmClientsManager.Database\CrmClientsManager.Database.csproj" />
     <ProjectReference Include="..\CrmClientsManager.Infrastructure\CrmClientsManager.Infrastructure.csproj" />
+    <ProjectReference Include="..\CrmClientsManager.Logic\CrmClientsManager.Application.csproj" />
   </ItemGroup>
 
 </Project>

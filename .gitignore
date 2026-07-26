@@ -55,3 +55,4 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+/CrmClientsManager/CrmClientsManager/MainForm.Designer.cs

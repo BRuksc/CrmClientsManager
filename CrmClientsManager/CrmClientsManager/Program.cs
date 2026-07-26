@@ -1,8 +1,12 @@
+using CrmClientsManager.Application.Services;
+using CrmClientsManager.Application.Servicess;
 using CrmClientsManager.Database.Configuration;
 using CrmClientsManager.Infrastructure.Factories;
 using CrmClientsManager.Infrastructure.Interfaces;
+using CrmClientsManager.Infrastructure.Mapping;
 using CrmClientsManager.Infrastructure.Repositories;
 using CrmClientsManager.UI;
+using System.Windows.Forms;
 
 namespace CrmClientsManager
 {
@@ -16,16 +20,51 @@ namespace CrmClientsManager
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            Bootstrapper.Run();
-
-            IDbConnectionFactory connFactory = 
+            IDbConnectionFactory connectionFactory = 
                 new DbConnectionFactory(DatabaseSettings.ConnectionString);
-            var repo = new CustomerRepository(connFactory);
 
-            var test = repo.GetAll();
+
+            var customerRepository =
+                new CustomerRepository(connectionFactory);
+
+
+            var contractRepository =
+                new ContractRepository(connectionFactory);
+
+
+            var ticketRepository =
+                new TicketRepository(connectionFactory);
+
+
+            var customerService =
+                new CustomerService(
+                    customerRepository);
+
+
+            var contractService =
+                new ContractService(
+                    contractRepository);
+
+
+            var ticketService =
+                new TicketService(
+                    ticketRepository);
+
+
+            var dashboardService =
+                new DashboardService(
+                    customerRepository,
+                    contractRepository,
+                    ticketRepository);
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+
+            System.Windows.Forms.Application.Run(
+                new MainForm(
+                    customerService,
+                    contractService,
+                    ticketService,
+                    dashboardService));
         }
     }
 }

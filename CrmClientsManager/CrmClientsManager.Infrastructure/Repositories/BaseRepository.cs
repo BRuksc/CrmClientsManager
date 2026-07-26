@@ -87,7 +87,7 @@ namespace CrmClientsManager.Infrastructure.Repositories
         {
             command.Connection.Open();
 
-            return (int)command.ExecuteScalar();
+            return Convert.ToInt32(command.ExecuteScalar());
         }
 
 

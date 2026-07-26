@@ -9,5 +9,7 @@ namespace CrmClientsManager.Application.Interfaces
     {
         public IList<Customer> GetCustomers();
         public int Create(Customer customer);
+        public void Delete(int id);
+        public void Update(Customer customer);
     }
 }

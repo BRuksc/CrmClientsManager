@@ -21,17 +21,36 @@ namespace CrmClientsManager.Infrastructure.Mapping
                     new Ticket()
                     {
                         TicketId = reader.GetInt32(reader.GetOrdinal(nameof(Ticket.TicketId))),
+
                         CustomerId = reader.GetInt32(reader.GetOrdinal(nameof(Ticket.CustomerId))),
-                        ContractId = reader.GetInt32(reader.GetOrdinal(nameof(Ticket.ContractId))),
+
+                        ContractId =
+                            reader.IsDBNull(reader.GetOrdinal(nameof(Ticket.ContractId)))
+                            ? null
+                            : reader.GetInt32(reader.GetOrdinal(nameof(Ticket.ContractId))),
+
                         Subject = reader.GetString(reader.GetOrdinal(nameof(Ticket.Subject))),
+
                         Description = reader.GetString(reader.GetOrdinal(nameof(Ticket.Description))),
+
                         Priority = Enum.Parse<TicketPriority>(
-                        reader.GetString(reader.GetOrdinal("Priority"))),
+                            reader.GetString(reader.GetOrdinal("Priority"))),
+
                         Status = Enum.Parse<TicketStatus>(
-                        reader.GetString(reader.GetOrdinal("Status"))),
-                        CreatedDate = reader.GetDateTime(reader.GetOrdinal(nameof(Ticket.CreatedDate))),
-                        ClosedDate = reader.GetDateTime(reader.GetOrdinal(nameof(Ticket.ClosedDate))),
-                        ResolutionComment = reader.GetString(reader.GetOrdinal(nameof(Ticket.ResolutionComment)))
+                            reader.GetString(reader.GetOrdinal("Status"))),
+
+                        CreatedDate =
+                            reader.GetDateTime(reader.GetOrdinal(nameof(Ticket.CreatedDate))),
+
+                        ClosedDate =
+                            reader.IsDBNull(reader.GetOrdinal(nameof(Ticket.ClosedDate)))
+                            ? null
+                            : reader.GetDateTime(reader.GetOrdinal(nameof(Ticket.ClosedDate))),
+
+                        ResolutionComment =
+                            reader.IsDBNull(reader.GetOrdinal(nameof(Ticket.ResolutionComment)))
+                            ? null
+                            : reader.GetString(reader.GetOrdinal(nameof(Ticket.ResolutionComment)))
                     });
             }
 

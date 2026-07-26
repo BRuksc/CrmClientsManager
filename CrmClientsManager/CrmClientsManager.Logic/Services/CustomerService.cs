@@ -42,5 +42,13 @@ namespace CrmClientsManager.Application.Services
                     "NIP is required");
             }
         }
+
+        public void Delete(int id) => _repository.Delete(id);
+
+        public void Update(Customer customer)
+        {
+            Validate(customer);
+            _repository.Update(customer);
+        }
     }
 }

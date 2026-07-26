@@ -83,6 +83,7 @@ namespace CrmClientsManager.Infrastructure.Repositories
                 "@Phone",
                 customer.Phone);
 
+            command.Parameters.AddWithValue("@CustomerType", customer.Type.ToString());
 
             ExecuteNonQuery(command);
         }

@@ -38,3 +38,27 @@ VALUES
 
 ('Energia dla Biznesu Sp. z o.o.', '1000000207', 'Częstochowa, ul. Wolności 30', 'kontakt@edb.pl', '500100119', 'Company');
 GO
+
+INSERT INTO Contracts
+(
+    CustomerId,
+    ContractNumber,
+    DateFrom,
+    DateTo,
+    EnergyType,
+    AnnualValue,
+    Status
+)
+SELECT TOP 10
+    CustomerId,
+    CONCAT('CON-', CustomerId),
+    DATEADD(MONTH, -6, GETDATE()),
+    DATEADD(YEAR, 1, GETDATE()),
+    CASE 
+        WHEN CustomerId % 2 = 0 THEN 'Gas'
+        ELSE 'Electricity'
+    END,
+    5000 + CustomerId * 500,
+    'Active'
+FROM Customers;
+GO

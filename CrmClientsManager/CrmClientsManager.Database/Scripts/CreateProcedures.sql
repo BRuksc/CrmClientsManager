@@ -1,6 +1,33 @@
 USE CrmClientsManager;
 GO
 
+CREATE OR ALTER PROCEDURE Customer_Update
+(
+    @CustomerId INT,
+    @Name NVARCHAR(200),
+    @Nip CHAR(10),
+    @Address NVARCHAR(300),
+    @Email NVARCHAR(150),
+    @Phone NVARCHAR(50),
+    @CustomerType VARCHAR(20)
+)
+AS
+BEGIN
+    UPDATE Customers
+    SET
+        Name = @Name,
+        Nip = @Nip,
+        Address = @Address,
+        Email = @Email,
+        Phone = @Phone,
+        CustomerType = @CustomerType
+    WHERE CustomerId = @CustomerId;
+
+
+    SELECT @CustomerId AS CustomerId;
+END
+GO
+
 CREATE OR ALTER PROCEDURE Customer_GetAll
 AS
 BEGIN
@@ -14,6 +41,14 @@ BEGIN
         CustomerType
     FROM Customers
     ORDER BY Name;
+END
+GO
+
+CREATE PROCEDURE Contract_GetAll
+AS
+BEGIN
+    SELECT *
+    FROM Contracts
 END
 GO
 
@@ -265,7 +300,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    INSERT INTO Ticket
+    INSERT INTO Tickets
     (
         CustomerId,
         ContractId,

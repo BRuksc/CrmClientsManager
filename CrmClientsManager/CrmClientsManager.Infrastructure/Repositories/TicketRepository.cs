@@ -78,19 +78,10 @@ namespace CrmClientsManager.Infrastructure.Repositories
                 "@Priority",
                 ticket.Priority.ToString());
 
-            command.Parameters.AddWithValue(
-                "@Status",
-                ticket.Status.ToString());
-
-            command.Parameters.AddWithValue(
-                "@CreatedDate",
-                ticket.CreatedDate);
-
-
             return ExecuteScalar(command);
         }
 
-        public void Close(int ticketId, DateTime closeDate, string resolutionComment)
+        public void Close(int ticketId, DateTime closedDate, string resolutionComment)
         {
             using var command = CreateCommand(ConnectionFactory.CreateConnection(), 
                 ProceduresNames.TicketClose);
@@ -100,8 +91,8 @@ namespace CrmClientsManager.Infrastructure.Repositories
                 ticketId);
 
             command.Parameters.AddWithValue(
-                "@CloseDate",
-                closeDate);
+                "@ClosedDate",
+                closedDate);
 
             command.Parameters.AddWithValue(
                 "@ResolutionComment",
