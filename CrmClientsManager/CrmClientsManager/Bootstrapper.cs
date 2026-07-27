@@ -18,57 +18,45 @@ namespace CrmClientsManager.UI
     public class Bootstrapper
     {
         private readonly IExecute<object> _executor;
+        private readonly IServicesRunner _servicesRunner;
 
         public Bootstrapper()
         {
             _executor = new Executor<object>(); 
+            _servicesRunner = new ServicseRunner();
         }
 
         public void Run()
         {
-            _executor.Execute(() =>
+            var result = 
+                _executor.Execute(() =>
             {
-                IDbConnectionFactory connectionFactory =
-                    new DbConnectionFactory(DatabaseSettings.ConnectionString);
-
-                var customerRepository =
-                    new CustomerRepository(connectionFactory);
-
-                var contractRepository =
-                    new ContractRepository(connectionFactory);
-
-                var ticketRepository =
-                    new TicketRepository(connectionFactory);
-
-                var customerService =
-                    new CustomerService(
-                        customerRepository);
-
-                var contractService =
-                    new ContractService(
-                        contractRepository);
-
-                var ticketService =
-                    new TicketService(
-                        ticketRepository);
-
-                var dashboardService =
-                    new DashboardService(
-                        customerRepository,
-                        contractRepository,
-                        ticketRepository);
-
                 ApplicationConfiguration.Initialize();
+
+                _servicesRunner.Initialize(); 
 
                 System.Windows.Forms.Application.Run(
                     new MainForm(
-                        customerService,
-                        contractService,
-                        ticketService,
-                        dashboardService));
+                        _servicesRunner.CustomerService,
+                        _servicesRunner.ContractService,
+                        _servicesRunner.TicketService,
+                        _servicesRunner.DashboardService));
 
                 return new object();
             });
+
+            if (!result.IsSuccess)
+            {
+                foreach (var e in _executor.Errors.Criticals)
+                {
+                    MessageBox.Show("Critical error: " + e.Message);
+                }
+
+                foreach (var e in _executor.Errors.Warnings)
+                {
+                    MessageBox.Show("Warning: " + e.Message);
+                }
+            }
         }
     }
 }

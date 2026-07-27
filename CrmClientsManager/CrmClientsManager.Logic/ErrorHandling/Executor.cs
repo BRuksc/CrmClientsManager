@@ -14,7 +14,7 @@ namespace CrmClientsManager.Application.ErrorHandling
 
         public IResult<T> Execute(Func<T> action)
         {
-            var errors = new ErrorsContainer();
+            Errors = new ErrorsContainer();
 
             try
             {
@@ -28,7 +28,7 @@ namespace CrmClientsManager.Application.ErrorHandling
             }
             catch (SqlException ex)
             {
-                errors.Criticals.Add(new Error
+                Errors.Criticals.Add(new Error
                 {
                     Message = GetSqlExceptionMessage(ex)
                 });
@@ -37,7 +37,7 @@ namespace CrmClientsManager.Application.ErrorHandling
             }
             catch (ValidationException ex)
             {
-                errors.Warnings.Add(new Error
+                Errors.Warnings.Add(new Error
                 {
                     Message = ex.Message
                 });
@@ -46,7 +46,7 @@ namespace CrmClientsManager.Application.ErrorHandling
             }
             catch (UnauthorizedAccessException)
             {
-                errors.Criticals.Add(new Error
+                Errors.Criticals.Add(new Error
                 {
                     Message = ErrorsMessages.UnauthorizedAccessError
                 });
@@ -55,7 +55,7 @@ namespace CrmClientsManager.Application.ErrorHandling
             }
             catch (ArgumentException)
             {
-                errors.Criticals.Add(new Error
+                Errors.Criticals.Add(new Error
                 {
                     Message = ErrorsMessages.ArgumentError
                 });
@@ -64,7 +64,7 @@ namespace CrmClientsManager.Application.ErrorHandling
             }
             catch (InvalidOperationException)
             {
-                errors.Criticals.Add(new Error
+                Errors.Criticals.Add(new Error
                 {
                     Message = ErrorsMessages.InvalidOperationError
                 });
